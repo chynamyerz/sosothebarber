@@ -92,7 +92,7 @@ class Queries {
           time
           cut {
             id
-            tittle
+            title
             image
             description
             price

@@ -87,6 +87,7 @@ class BookScreenWidget extends StatelessWidget {
             RunMutation bookSucceedMutation,
             QueryResult bookSucceedResult,
           ) {
+
             return WebView(
               initialUrl: url,
               javascriptMode: JavascriptMode.unrestricted,
