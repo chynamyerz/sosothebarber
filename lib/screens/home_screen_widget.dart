@@ -148,13 +148,14 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                                 bookPendingResultData['bookPending']['message'];
                             if (message.isNotEmpty) {
                               Navigator.of(context).pushNamed(
-                                  BookScreenWidget.routeName,
-                                  arguments: {
-                                    'bookingId': message,
-                                    'itemName': _itemName,
-                                    'itemDescription': _itemDescription,
-                                    'itemPrice': _itemPrice,
-                                  });
+                                BookScreenWidget.routeName,
+                                arguments: {
+                                  'bookingId': message,
+                                  'itemName': _itemName,
+                                  'itemDescription': _itemDescription,
+                                  'itemPrice': _itemPrice,
+                                },
+                              );
                             }
                           }
                         },
@@ -253,7 +254,8 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                                 SizedBox(height: mediaQuery.size.height * 0.01),
                                 if (cuts.length > 0)
                                   Container(
-                                    margin: EdgeInsets.only(left: 15, right: 15),
+                                    margin:
+                                        EdgeInsets.only(left: 15, right: 15),
                                     child: Material(
                                       elevation: 8,
                                       shadowColor: Colors.grey,
@@ -310,8 +312,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                                       ),
                                     ),
                                   ),
-                                SizedBox(
-                                    height: mediaQuery.size.height * 0.02),
+                                SizedBox(height: mediaQuery.size.height * 0.02),
                                 if (cuts.length > 0)
                                   Container(
                                     height: mediaQuery.size.height * 0.4,
@@ -435,7 +436,8 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                                                   margin: EdgeInsets.only(
                                                       top: 10, bottom: 5),
                                                   decoration: BoxDecoration(
-                                                    color: Colors.lightGreenAccent,
+                                                    color:
+                                                        Colors.lightGreenAccent,
                                                     border:
                                                         Border.fromBorderSide(
                                                             Borders

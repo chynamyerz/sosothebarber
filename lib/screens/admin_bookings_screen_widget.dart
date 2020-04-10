@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:sosothebarber/graphql/queries.dart';
 import 'package:sosothebarber/screens/book_screen_widget.dart';
+import 'package:sosothebarber/screens/bookings_management_screen_widget.dart';
 import 'package:sosothebarber/widgets/loading_widget.dart';
 
 import '../widgets/app_drawer.dart';
@@ -52,7 +53,7 @@ class AdminBookingsScreenWidget extends StatelessWidget {
           }
 
           List<dynamic> bookings = bookingsQueryResult.data != null
-              ? bookingsQueryResult.data['bookings']
+              ? bookingsQueryResult.data['bookingsWithUser']
               : [];
 
           return RefreshIndicator(
@@ -66,10 +67,10 @@ class AdminBookingsScreenWidget extends StatelessWidget {
                 onCompleted: (dynamic manageBookingsResultData) async {
                   if (manageBookingsResultData != null) {
                     String message =
-                        manageBookingsResultData['manageBooking']['message'];
+                        manageBookingsResultData['manageBookings']['message'];
                     if (message.isNotEmpty) {
                       Navigator.of(context)
-                          .pushNamed(BookScreenWidget.routeName);
+                          .pushNamed(BookingsManagementScreenWidget.routeName);
                     }
                     refetch();
                   }

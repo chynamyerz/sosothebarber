@@ -10,6 +10,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:sosothebarber/screens/bookings_management_screen_widget.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../screens/home_screen_widget.dart';
@@ -46,9 +48,11 @@ class BookScreenWidget extends StatelessWidget {
     final double itemPrice = arguments['itemPrice'];
     final String bookingId = arguments['bookingId'];
 
-    final String url =
-        '$payFastUrl?merchant_id=$payFastMerchantId&merchant_key=$payFastMerchantKey&item_name=$itemName&item_description=$itemDescription&amount=$itemPrice&return_url=$successUrl&cancel_url=$cancelUrl';
-    print(url);
+    final String url = Uri.encodeFull(
+        '$payFastUrl?merchant_id=$payFastMerchantId&merchant_key=$payFastMerchantKey&item_name=$itemName&item_description=$itemDescription&amount=$itemPrice&return_url=$successUrl&cancel_url=$cancelUrl'
+    );
+        print(url);
+
     Future<void> _submit(Function bookMutation, bool status) async {
       try {
         final response = await bookMutation({
@@ -104,7 +108,7 @@ class BookScreenWidget extends StatelessWidget {
                 if (request.url == successUrl) {
                   _submit(bookSucceedMutation, true);
                   Navigator.of(context)
-                      .pushReplacementNamed(HomeScreenWidget.routeName);
+                      .pushReplacementNamed(BookingsManagementScreenWidget.routeName);
                 }
 
                 return NavigationDecision.navigate;

@@ -22,14 +22,25 @@ import '../utils/general_util.dart';
 
 import '../values/values.dart';
 
-class ClientBookingsScreenWidget extends StatelessWidget {
-  Future<void> _submit({
-    Function cancelBookingMutation,
-    String bookingId,
-  }) async {
+class ClientBookingsScreenWidget extends StatefulWidget {
+  @override
+  _ClientBookingsScreenWidgetState createState() => _ClientBookingsScreenWidgetState();
+}
+
+class _ClientBookingsScreenWidgetState extends State<ClientBookingsScreenWidget> {
+  String _bookingId;
+  String _itemName;
+  String _itemDescription;
+  double _itemPrice;
+
+  Future<void> _submit(
+      {Function manageBookingsMutation,
+      String bookingId,
+      String action}) async {
     try {
-      final response = await cancelBookingMutation({
+      final response = await manageBookingsMutation({
         'bookingId': bookingId,
+        'action': action,
       });
     } catch (error) {
       return;
@@ -59,33 +70,41 @@ class ClientBookingsScreenWidget extends StatelessWidget {
             onRefresh: refetch,
             child: Mutation(
               options: MutationOptions(
-                documentNode: gql(Mutations().cancelBooking),
+                documentNode: gql(Mutations().manageBookings),
                 update: (Cache cache, QueryResult result) {
                   return cache;
                 },
-                onCompleted: (dynamic cancelBookingResultData) async {
-                  if (cancelBookingResultData != null) {
+                onCompleted: (dynamic manageBookingsResultData) async {
+                  if (manageBookingsResultData != null) {
                     String message =
-                        cancelBookingResultData['cancelBooking']['message'];
-                    if (message.isNotEmpty) {
-                      Navigator.of(context)
-                          .pushNamed(BookingsManagementScreenWidget.routeName);
+                        manageBookingsResultData['manageBookings']['message'];
+                    if (message.isNotEmpty && message.contains('pay')) {
+                      Navigator.of(context).pushNamed(
+                          BookScreenWidget.routeName,
+                          arguments: {
+                            'bookingId': _bookingId,
+                            'itemName': _itemName,
+                            'itemDescription': _itemDescription,
+                            'itemPrice': _itemPrice,
+                          });
+                    } else {
+                      Navigator.of(context).pushNamed(BookingsManagementScreenWidget.routeName);
                     }
                     refetch();
                   }
                 },
               ),
               builder: (
-                RunMutation cancelBookingMutation,
-                QueryResult cancelBookingResult,
+                RunMutation manageBookingsMutation,
+                QueryResult manageBookingsResult,
               ) {
                 String errorResponseMessage;
-                if (cancelBookingResult.hasException) {
+                if (manageBookingsResult.hasException) {
                   errorResponseMessage = GeneralUtil()
-                      .graphQLError(cancelBookingResult.exception.toString());
+                      .graphQLError(manageBookingsResult.exception.toString());
                 }
 
-                if (cancelBookingResult.loading) {
+                if (manageBookingsResult.loading) {
                   return LoadingWidget();
                 }
 
@@ -303,10 +322,96 @@ class ClientBookingsScreenWidget extends StatelessWidget {
                                         ),
                                         if (bookings[index]['status'] ==
                                             'ACTIVE')
+                                          Container(
+                                              height: 30,
+                                              margin: EdgeInsets.only(
+                                                  top: 10, bottom: 5),
+                                              decoration: BoxDecoration(
+                                                color: Colors.redAccent,
+                                                border: Border.fromBorderSide(
+                                                    Borders.primaryBorder),
+                                                boxShadow: [
+                                                  Shadows.primaryShadow,
+                                                ],
+                                                borderRadius: Radii.k10pxRadius,
+                                              ),
+                                              child: FlatButton(
+                                                child: Text(
+                                                  'Cancel',
+                                                  style: TextStyle(
+                                                    color:
+                                                        AppColors.primaryText,
+                                                    fontFamily: "Arial",
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                                onPressed: () async {
+                                                  _submit(
+                                                    manageBookingsMutation:
+                                                        manageBookingsMutation,
+                                                    bookingId: bookings[index]
+                                                        ['id'],
+                                                    action: 'cancel',
+                                                  );
+                                                },
+                                              )),
+                                        if (bookings[index]['status'] ==
+                                            'PENDING')
                                           Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
                                             children: <Widget>[
+                                              Container(
+                                                  height: 30,
+                                                  margin: EdgeInsets.only(
+                                                      top: 10, bottom: 5),
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.lightGreen,
+                                                    border:
+                                                        Border.fromBorderSide(
+                                                            Borders
+                                                                .primaryBorder),
+                                                    boxShadow: [
+                                                      Shadows.primaryShadow,
+                                                    ],
+                                                    borderRadius:
+                                                        Radii.k10pxRadius,
+                                                  ),
+                                                  child: FlatButton(
+                                                    child: Text(
+                                                      'Pay now',
+                                                      style: TextStyle(
+                                                        color: AppColors
+                                                            .primaryText,
+                                                        fontFamily: "Arial",
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                      ),
+                                                    ),
+                                                    onPressed: () async {
+                                                      setState(() {
+                                                        _bookingId = bookings[index]['id'];
+                                                        _itemName = bookings[index]['cut']
+                                                        ['title'];
+                                                        _itemDescription =
+                                                        bookings[index]['cut']
+                                                        ['description'];
+                                                        _itemPrice = double
+                                                            .parse(bookings[index]['cut']
+                                                        ['price']
+                                                            .toString());
+                                                      });
+                                                      _submit(
+                                                        manageBookingsMutation:
+                                                            manageBookingsMutation,
+                                                        bookingId:
+                                                            bookings[index]
+                                                                ['id'],
+                                                        action: 'paynow',
+                                                      );
+                                                    },
+                                                  )),
+                                              Spacer(),
                                               Container(
                                                   height: 30,
                                                   margin: EdgeInsets.only(
@@ -336,11 +441,12 @@ class ClientBookingsScreenWidget extends StatelessWidget {
                                                     ),
                                                     onPressed: () async {
                                                       _submit(
-                                                        cancelBookingMutation:
-                                                            cancelBookingMutation,
+                                                        manageBookingsMutation:
+                                                            manageBookingsMutation,
                                                         bookingId:
                                                             bookings[index]
                                                                 ['id'],
+                                                        action: 'cancel',
                                                       );
                                                     },
                                                   )),
