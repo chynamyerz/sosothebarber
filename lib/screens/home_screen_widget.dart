@@ -40,7 +40,6 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
   String _error;
   double _itemPrice;
 
-
   Future<void> _submit(Function bookMutation) async {
     if (_userId == null) {
       print('H');
@@ -73,7 +72,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
       final response = await bookMutation({
         'userId': _userId,
         'cutId': _cutId,
-        'dayTime': '$year-$month-$day\T$hour:$minute:$second',
+        'dayTime': '$year-$month-$day\T$hour:$minute:$second\Z',
       });
       setState(() {
         _error = null;
@@ -104,7 +103,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                 left: mediaQuery.size.width * 0.085,
                 right: mediaQuery.size.width * 0.085,
                 top: mediaQuery.size.height * 0.01,
-                bottom: mediaQuery.size.height * 0.02,
+                bottom: mediaQuery.size.height * 0.01,
               ),
               child: Text(
                 "Make a booking",
@@ -124,10 +123,10 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
               child: Query(
                 options: QueryOptions(documentNode: gql(Queries().user)),
                 builder: (
-                    QueryResult userQueryResult, {
-                      VoidCallback refetch,
-                      FetchMore fetchMore,
-                    }) {
+                  QueryResult userQueryResult, {
+                  VoidCallback refetch,
+                  FetchMore fetchMore,
+                }) {
                   Map user;
                   if (userQueryResult.data != null) {
                     if (userQueryResult.data['user'] != null) {
@@ -146,27 +145,28 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                         onCompleted: (dynamic bookPendingResultData) async {
                           if (bookPendingResultData != null) {
                             String message =
-                            bookPendingResultData['bookPending']['message'];
+                                bookPendingResultData['bookPending']['message'];
                             if (message.isNotEmpty) {
-                              Navigator.of(context)
-                                  .pushNamed(BookScreenWidget.routeName, arguments: {
-                                'bookingId': message,
-                                'itemName': _itemName,
-                                'itemDescription': _itemDescription,
-                                'itemPrice': _itemPrice,
-                              });
+                              Navigator.of(context).pushNamed(
+                                  BookScreenWidget.routeName,
+                                  arguments: {
+                                    'bookingId': message,
+                                    'itemName': _itemName,
+                                    'itemDescription': _itemDescription,
+                                    'itemPrice': _itemPrice,
+                                  });
                             }
                           }
                         },
                       ),
                       builder: (
-                          RunMutation bookPendingMutation,
-                          QueryResult bookPendingResult,
-                          ) {
+                        RunMutation bookPendingMutation,
+                        QueryResult bookPendingResult,
+                      ) {
                         String errorResponseMessage;
                         if (bookPendingResult.hasException) {
-                          errorResponseMessage = GeneralUtil()
-                              .graphQLError(bookPendingResult.exception.toString());
+                          errorResponseMessage = GeneralUtil().graphQLError(
+                              bookPendingResult.exception.toString());
                         }
 
                         if (bookPendingResult.loading) {
@@ -174,12 +174,13 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                         }
 
                         return Query(
-                          options: QueryOptions(documentNode: gql(Queries().cuts)),
+                          options:
+                              QueryOptions(documentNode: gql(Queries().cuts)),
                           builder: (
-                              QueryResult cutsQueryResult, {
-                                VoidCallback refetch,
-                                FetchMore fetchMore,
-                              }) {
+                            QueryResult cutsQueryResult, {
+                            VoidCallback refetch,
+                            FetchMore fetchMore,
+                          }) {
                             if (cutsQueryResult.loading) {
                               return LoadingWidget();
                             }
@@ -204,7 +205,8 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                                           color: AppColors.primaryText,
                                           fontFamily: "Arial Black",
                                           fontWeight: FontWeight.w900,
-                                          fontSize: mediaQuery.size.height * 0.025,
+                                          fontSize:
+                                              mediaQuery.size.height * 0.025,
                                         ),
                                       ),
                                     ),
@@ -251,7 +253,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                                 SizedBox(height: mediaQuery.size.height * 0.01),
                                 if (cuts.length > 0)
                                   Container(
-                                    width: mediaQuery.size.width * 0.85,
+                                    margin: EdgeInsets.only(left: 15, right: 15),
                                     child: Material(
                                       elevation: 8,
                                       shadowColor: Colors.grey,
@@ -264,32 +266,38 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                                           fontWeight: FontWeight.w400,
                                         ),
                                         decoration: InputDecoration(
-                                          hintText: 'Select date & time',
-                                          filled: true,
-                                          fillColor: Theme.of(context).primaryColor,
-                                          prefixIcon: Icon(
-                                            Icons.calendar_today,
-                                            size: 24,
-                                            color: Colors.black26,
-                                          ),
-                                            contentPadding: EdgeInsets.only(top: mediaQuery.size.height * 0.022,
-                                                left: mediaQuery.size.width * 0.02)
-                                        ),
-                                        onShowPicker: (context, currentValue) async {
+                                            hintText: 'Select date & time',
+                                            filled: true,
+                                            fillColor:
+                                                Theme.of(context).primaryColor,
+                                            prefixIcon: Icon(
+                                              Icons.calendar_today,
+                                              size: 24,
+                                              color: Colors.black26,
+                                            ),
+                                            contentPadding: EdgeInsets.only(
+                                                top: 15,
+                                                left: mediaQuery.size.width *
+                                                    0.02)),
+                                        onShowPicker:
+                                            (context, currentValue) async {
                                           final date = await showDatePicker(
                                               context: context,
                                               firstDate: DateTime.now(),
-                                              initialDate:
-                                              currentValue ?? DateTime.now(),
+                                              initialDate: currentValue ??
+                                                  DateTime.now(),
                                               lastDate: DateTime.parse(
                                                   '${DateTime.now().year + 1}-01-01'));
                                           if (date != null) {
                                             final time = await showTimePicker(
                                               context: context,
-                                              initialTime: TimeOfDay.fromDateTime(
-                                                  currentValue ?? DateTime.now()),
+                                              initialTime:
+                                                  TimeOfDay.fromDateTime(
+                                                      currentValue ??
+                                                          DateTime.now()),
                                             );
-                                            return DateTimeField.combine(date, time);
+                                            return DateTimeField.combine(
+                                                date, time);
                                           } else {
                                             return currentValue;
                                           }
@@ -302,220 +310,174 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                                       ),
                                     ),
                                   ),
-                                SizedBox(height: mediaQuery.size.height * 0.025),
+                                SizedBox(
+                                    height: mediaQuery.size.height * 0.02),
                                 if (cuts.length > 0)
                                   Container(
                                     height: mediaQuery.size.height * 0.4,
+                                    margin: EdgeInsets.all(10),
                                     child: ListView.builder(
                                       itemCount: cuts.length,
                                       itemBuilder: (ctx, index) {
-                                        return Align(
-                                          alignment: Alignment.topCenter,
+                                        return Card(
+                                          elevation: 5,
+                                          color: Theme.of(context).primaryColor,
                                           child: Container(
-                                            width: mediaQuery.size.width * 0.85,
-                                            height: mediaQuery.size.height * 0.15,
-                                            margin: EdgeInsets.only(
-                                                bottom:
-                                                mediaQuery.size.height * 0.02),
-                                            decoration: BoxDecoration(
-                                              gradient: Gradients.primaryGradient,
-                                              border: Border.fromBorderSide(
-                                                  Borders.primaryBorder),
-                                              boxShadow: [
-                                                Shadows.primaryShadow,
-                                              ],
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(10)),
-                                            ),
+                                            padding: EdgeInsets.all(10),
                                             child: Column(
                                               crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                              children: [
-                                                Container(
-                                                  width: mediaQuery.size.width * 0.85,
-                                                  height:
-                                                  mediaQuery.size.height * 0.05,
-                                                  margin: EdgeInsets.only(
-                                                    left:
-                                                    mediaQuery.size.width * 0.05,
-                                                    top:
-                                                    mediaQuery.size.height * 0.02,
-                                                    right:
-                                                    mediaQuery.size.width * 0.015,
-                                                  ),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                    children: [
-                                                      Column(
-                                                        crossAxisAlignment:
-                                                        CrossAxisAlignment.start,
-                                                        children: <Widget>[
-                                                          Text(
-                                                            "Title",
-                                                            style: TextStyle(
-                                                              color: Color.fromARGB(
-                                                                  255, 0, 0, 0),
-                                                              fontFamily: "Arial",
-                                                              fontWeight:
-                                                              FontWeight.bold,
-                                                              fontSize: mediaQuery
-                                                                  .size.height *
-                                                                  0.02,
-                                                            ),
+                                                  CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: <Widget>[
+                                                        Text(
+                                                          "Title",
+                                                          style: TextStyle(
+                                                            fontFamily: "Arial",
+                                                            fontWeight:
+                                                                FontWeight.bold,
                                                           ),
-                                                          Text(
-                                                            "Price",
-                                                            style: TextStyle(
-                                                              color: Color.fromARGB(
-                                                                  255, 0, 0, 0),
-                                                              fontFamily: "Arial",
-                                                              fontWeight:
-                                                              FontWeight.bold,
-                                                              fontSize: mediaQuery
-                                                                  .size.height *
-                                                                  0.02,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      Column(
-                                                        crossAxisAlignment:
-                                                        CrossAxisAlignment.start,
-                                                        children: <Widget>[
-                                                          Text(
-                                                            ":",
-                                                            style: TextStyle(
-                                                              color: Color.fromARGB(
-                                                                  255, 0, 0, 0),
-                                                              fontFamily: "Arial",
-                                                              fontWeight:
-                                                              FontWeight.bold,
-                                                              fontSize: mediaQuery
-                                                                  .size.height *
-                                                                  0.02,
-                                                            ),
-                                                          ),
-                                                          Text(
-                                                            ":",
-                                                            style: TextStyle(
-                                                              color: Color.fromARGB(
-                                                                  255, 0, 0, 0),
-                                                              fontFamily: "Arial",
-                                                              fontWeight:
-                                                              FontWeight.bold,
-                                                              fontSize: mediaQuery
-                                                                  .size.height *
-                                                                  0.02,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      Column(
-                                                        crossAxisAlignment:
-                                                        CrossAxisAlignment.start,
-                                                        children: <Widget>[
-                                                          Text(
-                                                            cuts[index]['title'],
-                                                            style: TextStyle(
-                                                              color: Color.fromARGB(
-                                                                  255, 0, 0, 0),
-                                                              fontFamily: "Arial",
-                                                              fontWeight:
-                                                              FontWeight.w400,
-                                                              fontSize: mediaQuery
-                                                                  .size.height *
-                                                                  0.02,
-                                                            ),
-                                                          ),
-                                                          Text(
-                                                            'R${cuts[index]['price']}',
-                                                            textAlign: TextAlign.left,
-                                                            style: TextStyle(
-                                                              color: Color.fromARGB(
-                                                                  255, 0, 0, 0),
-                                                              fontFamily: "Arial",
-                                                              fontWeight:
-                                                              FontWeight.w400,
-                                                              fontSize: mediaQuery
-                                                                  .size.height *
-                                                                  0.02,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                Align(
-                                                  alignment: Alignment.topLeft,
-                                                  child: Container(
-                                                    width:
-                                                    mediaQuery.size.width * 0.85,
-                                                    margin: EdgeInsets.only(
-                                                        left: mediaQuery.size.width *
-                                                            0.05, bottom: mediaQuery.size.height * 0.005),
-                                                    child: Text(
-                                                      cuts[index]['description'],
-                                                      style: TextStyle(
-                                                        color: Colors.black26,
-                                                        fontFamily: "Arial",
-                                                        fontWeight: FontWeight.w400,
-                                                        fontSize:
-                                                        mediaQuery.size.height *
-                                                            0.015,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Align(
-                                                  alignment: Alignment.topCenter,
-                                                  child: Container(
-                                                    width:
-                                                    mediaQuery.size.width * 0.75,
-                                                    height: mediaQuery.size.height *
-                                                        0.035,
-                                                    decoration: BoxDecoration(
-                                                      gradient:
-                                                      Gradients.primaryGradient,
-                                                      border: Border.fromBorderSide(
-                                                          Borders.primaryBorder),
-                                                      boxShadow: [
-                                                        Shadows.primaryShadow,
-                                                      ],
-                                                      borderRadius: Radii.k10pxRadius,
-                                                    ),
-                                                    child: FlatButton(
-                                                      child: Text(
-                                                        'Book',
-                                                        textAlign: TextAlign.left,
-                                                        style: TextStyle(
-                                                          color:
-                                                          AppColors.primaryText,
-                                                          fontFamily: "Arial",
-                                                          fontWeight: FontWeight.w400,
-                                                          fontSize: mediaQuery.size.height * 0.025,
                                                         ),
-                                                      ),
-                                                      onPressed: () async {
-                                                        setState(() {
-                                                          _cutId = cuts[index]['id'];
-                                                          _userId = user != null
-                                                              ? user['id']
-                                                              : null;
-                                                          _itemName =
-                                                          cuts[index]['title'];
-                                                          _itemDescription =
-                                                          cuts[index]
-                                                          ['description'];
-                                                          _itemPrice = double.parse(
-                                                              cuts[index]['price']
-                                                                  .toString());
-                                                        });
-
-                                                        _submit(bookPendingMutation);
-                                                      },
+                                                        Text(
+                                                          "Description",
+                                                          style: TextStyle(
+                                                            fontFamily: "Arial",
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          "Price",
+                                                          style: TextStyle(
+                                                            fontFamily: "Arial",
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
+                                                      ],
                                                     ),
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: <Widget>[
+                                                        Text(
+                                                          ":",
+                                                          style: TextStyle(
+                                                            fontFamily: "Arial",
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          ":",
+                                                          style: TextStyle(
+                                                            fontFamily: "Arial",
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          ":",
+                                                          style: TextStyle(
+                                                            fontFamily: "Arial",
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: <Widget>[
+                                                        Text(
+                                                          cuts[index]['title'],
+                                                          style: TextStyle(
+                                                            fontFamily: "Arial",
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          cuts[index]
+                                                              ['description'],
+                                                          style: TextStyle(
+                                                            fontFamily: "Arial",
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          'R${cuts[index]['price']}',
+                                                          textAlign:
+                                                              TextAlign.left,
+                                                          style: TextStyle(
+                                                            fontFamily: "Arial",
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                                Container(
+                                                  height: 30,
+                                                  margin: EdgeInsets.only(
+                                                      top: 10, bottom: 5),
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.lightGreenAccent,
+                                                    border:
+                                                        Border.fromBorderSide(
+                                                            Borders
+                                                                .primaryBorder),
+                                                    boxShadow: [
+                                                      Shadows.primaryShadow,
+                                                    ],
+                                                    borderRadius:
+                                                        Radii.k10pxRadius,
+                                                  ),
+                                                  child: FlatButton(
+                                                    child: Text(
+                                                      'Book',
+                                                      style: TextStyle(
+                                                        color: AppColors
+                                                            .primaryText,
+                                                        fontFamily: "Arial",
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                      ),
+                                                    ),
+                                                    onPressed: () async {
+                                                      setState(() {
+                                                        _cutId =
+                                                            cuts[index]['id'];
+                                                        _userId = user != null
+                                                            ? user['id']
+                                                            : null;
+                                                        _itemName = cuts[index]
+                                                            ['title'];
+                                                        _itemDescription =
+                                                            cuts[index]
+                                                                ['description'];
+                                                        _itemPrice = double
+                                                            .parse(cuts[index]
+                                                                    ['price']
+                                                                .toString());
+                                                      });
+
+                                                      _submit(
+                                                          bookPendingMutation);
+                                                    },
                                                   ),
                                                 ),
                                               ],

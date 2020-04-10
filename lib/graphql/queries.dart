@@ -24,7 +24,7 @@ class Queries {
   String get userWithBookings {
     return '''
       query USER_WITH_BOOKINGS_QUERY {
-        user {
+        userWithBookings {
           id
           email
           displayName
@@ -37,7 +37,7 @@ class Queries {
             time
             cut {
               id
-              tittle
+              title
               image
               description
               price
@@ -72,7 +72,7 @@ class Queries {
           time
           cut {
             id
-            tittle
+            title
             image
             description
             price
@@ -84,8 +84,8 @@ class Queries {
 
   String get bookingsWithUser {
     return '''
-      query BOOKINGS_QUERY {
-        bookings {
+      query BOOKINGS_WITH_USER_QUERY {
+        bookingsWithUser {
           id
           status
           date

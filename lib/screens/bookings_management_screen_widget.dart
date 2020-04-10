@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:sosothebarber/graphql/queries.dart';
 import 'package:sosothebarber/screens/admin_bookings_screen_widget.dart';
+import 'package:sosothebarber/screens/client_bookings_screen_widget.dart';
 import 'package:sosothebarber/widgets/loading_widget.dart';
 
 import '../widgets/app_drawer.dart';
@@ -57,8 +58,7 @@ class BookingsManagementScreenWidget extends StatelessWidget {
           Expanded(
             child: SingleChildScrollView(
               child: Query(
-                options:
-                    QueryOptions(documentNode: gql(Queries().user)),
+                options: QueryOptions(documentNode: gql(Queries().user)),
                 builder: (
                   QueryResult userQueryResult, {
                   VoidCallback refetch,
@@ -74,11 +74,9 @@ class BookingsManagementScreenWidget extends StatelessWidget {
                     }
                   }
 
-                  return RefreshIndicator(
-                    onRefresh: refetch,
-                    child: user != null && user['role'] != 'ADMIN' ?
-                          AdminBookingsScreenWidget() : Container()
-                  );
+                  return user != null && user['role'] == 'ADMIN'
+                      ? AdminBookingsScreenWidget()
+                      : ClientBookingsScreenWidget();
                 },
               ),
             ),

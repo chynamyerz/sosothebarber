@@ -275,7 +275,7 @@ class _UpdateUserScreenWidgetState extends State<UpdateUserScreenWidget> {
                                 alignment: Alignment.topCenter,
                                 child: Container(
                                   width: mediaQuery.size.width * 0.85,
-                                  height: mediaQuery.size.height * 0.05,
+                                  height: 45,
                                   decoration: BoxDecoration(
                                     gradient: Gradients.primaryGradient,
                                     border: Border.fromBorderSide(
@@ -293,7 +293,7 @@ class _UpdateUserScreenWidgetState extends State<UpdateUserScreenWidget> {
                                         color: AppColors.primaryText,
                                         fontFamily: "Arial",
                                         fontWeight: FontWeight.w400,
-                                        fontSize: mediaQuery.size.height * 0.03,
+                                        fontSize: 20,
                                       ),
                                     ),
                                     onPressed: () async {
@@ -302,7 +302,7 @@ class _UpdateUserScreenWidgetState extends State<UpdateUserScreenWidget> {
                                   ),
                                 ),
                               ),
-                              SizedBox(height: mediaQuery.size.height * 0.02),
+                              SizedBox(height: mediaQuery.size.height * 0.03),
                             ],
                           ),
                         ),

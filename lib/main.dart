@@ -11,6 +11,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:sosothebarber/screens/book_screen_widget.dart';
 import 'package:sosothebarber/screens/bookings_management_screen_widget.dart';
+import 'package:sosothebarber/screens/client_bookings_screen_widget.dart';
 import 'package:sosothebarber/screens/request_reset_password_screen_widget.dart';
 import 'package:sosothebarber/screens/reset_password_screen_widget.dart';
 import 'package:sosothebarber/screens/signup_screen_widget.dart';
@@ -29,7 +30,8 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final HttpLink httpLink = HttpLink(
-      uri: 'https://soso-the-barber-backend.myezasifiso.now.sh/',
+      uri: 'http://192.168.1.55:4000/',
+//      uri: 'https://soso-the-barber-backend.myezasifiso.now.sh/',
     );
 
     String token;

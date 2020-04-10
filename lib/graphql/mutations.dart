@@ -143,13 +143,13 @@ class Mutations {
     ''';
   }
 
-  String get manageBooking {
+  String get manageBookings {
     return '''
-      mutation MANAGE_BOOKING_MUTATION (
+      mutation MANAGE_BOOKINGS_MUTATION (
         \$bookingId: ID!
         \$action: String!
       ) {
-        manageBooking (
+        manageBookings (
           bookingId: \$bookingId
           action: \$action
         ) {

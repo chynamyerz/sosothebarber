@@ -31,16 +31,15 @@ class TextFormFieldWidget extends StatelessWidget {
 
     return Container(
       width: mediaQuery.size.width * 0.85,
-      child: Material(
-          elevation: 8,
-          shadowColor: Colors.grey,
+      child: Card(
+          elevation: 10,
           child: TextFormField(
             decoration: InputDecoration(
               hintText: label,
               filled: true,
               fillColor: Theme.of(context).primaryColor,
               prefixIcon: icon,
-              contentPadding: EdgeInsets.only(top: mediaQuery.size.height * 0.02,
+              contentPadding: EdgeInsets.only(top: 15,
               left: mediaQuery.size.width * 0.02)
             ),
             textAlign: TextAlign.left,

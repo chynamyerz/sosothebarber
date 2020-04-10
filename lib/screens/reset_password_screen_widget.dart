@@ -194,7 +194,7 @@ class _ResetPasswordWidgetState extends State<ResetPasswordWidget> {
                           alignment: Alignment.topCenter,
                           child: Container(
                             width: mediaQuery.size.width * 0.85,
-                            height: mediaQuery.size.height * 0.05,
+                            height: 45,
                             decoration: BoxDecoration(
                               gradient: Gradients.primaryGradient,
                               border:
@@ -212,7 +212,7 @@ class _ResetPasswordWidgetState extends State<ResetPasswordWidget> {
                                   color: AppColors.primaryText,
                                   fontFamily: "Arial",
                                   fontWeight: FontWeight.w400,
-                                  fontSize: mediaQuery.size.height * 0.03,
+                                  fontSize: 20,
                                 ),
                               ),
                               onPressed: () async {

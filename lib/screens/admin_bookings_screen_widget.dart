@@ -23,7 +23,9 @@ import '../values/values.dart';
 
 class AdminBookingsScreenWidget extends StatelessWidget {
   Future<void> _submit(
-      Function manageBookingsMutation, String bookingId, String action) async {
+      {Function manageBookingsMutation,
+      String bookingId,
+      String action}) async {
     try {
       final response = await manageBookingsMutation({
         'bookingId': bookingId,
@@ -57,7 +59,7 @@ class AdminBookingsScreenWidget extends StatelessWidget {
             onRefresh: refetch,
             child: Mutation(
               options: MutationOptions(
-                documentNode: gql(Mutations().manageBooking),
+                documentNode: gql(Mutations().manageBookings),
                 update: (Cache cache, QueryResult result) {
                   return cache;
                 },
@@ -87,7 +89,7 @@ class AdminBookingsScreenWidget extends StatelessWidget {
                   return LoadingWidget();
                 }
 
-                return Column(
+                return RefreshIndicator(child: Column(
                   children: <Widget>[
                     if (bookings.length <= 0)
                       Center(
@@ -131,7 +133,7 @@ class AdminBookingsScreenWidget extends StatelessWidget {
                     SizedBox(height: mediaQuery.size.height * 0.01),
                     if (bookings.length > 0)
                       Container(
-                        height: mediaQuery.size.height * 0.5,
+                        height: mediaQuery.size.height * 0.45,
                         margin: EdgeInsets.all(10),
                         child: ListView.builder(
                           itemCount: bookings.length,
@@ -146,11 +148,11 @@ class AdminBookingsScreenWidget extends StatelessWidget {
                                   children: <Widget>[
                                     Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                      MainAxisAlignment.start,
                                       children: [
                                         Column(
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                           children: <Widget>[
                                             Text(
                                               "Booked by",
@@ -191,7 +193,7 @@ class AdminBookingsScreenWidget extends StatelessWidget {
                                         ),
                                         Column(
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                           children: <Widget>[
                                             Text(
                                               ":",
@@ -232,7 +234,7 @@ class AdminBookingsScreenWidget extends StatelessWidget {
                                         ),
                                         Column(
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                           children: <Widget>[
                                             Text(
                                               '${bookings[index]['user']['displayName'][0].toString().toUpperCase()}${bookings[index]['user']['displayName'].toString().substring(1)}',
@@ -250,7 +252,7 @@ class AdminBookingsScreenWidget extends StatelessWidget {
                                             ),
                                             Text(
                                               bookings[index]['cut']
-                                                  ['description'],
+                                              ['description'],
                                               style: TextStyle(
                                                 fontFamily: "Arial",
                                                 fontWeight: FontWeight.w400,
@@ -270,8 +272,7 @@ class AdminBookingsScreenWidget extends StatelessWidget {
                                                 '${bookings[index]['status']}',
                                                 textAlign: TextAlign.left,
                                                 style: TextStyle(
-                                                  color:
-                                                      Colors.lightGreen,
+                                                  color: Colors.lightGreen,
                                                   fontFamily: "Arial",
                                                   fontWeight: FontWeight.bold,
                                                 ),
@@ -315,68 +316,76 @@ class AdminBookingsScreenWidget extends StatelessWidget {
                                     ),
                                     if (bookings[index]['status'] == 'ACTIVE')
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.start,
                                         children: <Widget>[
                                           Container(
-                                            height: 30,
-                                            margin:
-                                            EdgeInsets.only(top: 10, bottom: 5),
-                                            decoration: BoxDecoration(
-                                              color: Colors.lightBlueAccent,
-                                              border: Border.fromBorderSide(
-                                                  Borders.primaryBorder),
-                                              boxShadow: [
-                                                Shadows.primaryShadow,
-                                              ],
-                                              borderRadius: Radii.k10pxRadius,
-                                            ),
-                                            child:FlatButton(
-                                                  child: Text(
-                                                    'Finished',
-                                                    style: TextStyle(
-                                                      color: AppColors.primaryText,
-                                                      fontFamily: "Arial",
-                                                      fontWeight: FontWeight.w400,
-                                                    ),
+                                              height: 30,
+                                              margin: EdgeInsets.only(
+                                                  top: 10, bottom: 5),
+                                              decoration: BoxDecoration(
+                                                color: Colors.lightBlueAccent,
+                                                border: Border.fromBorderSide(
+                                                    Borders.primaryBorder),
+                                                boxShadow: [
+                                                  Shadows.primaryShadow,
+                                                ],
+                                                borderRadius: Radii.k10pxRadius,
+                                              ),
+                                              child: FlatButton(
+                                                child: Text(
+                                                  'Finished',
+                                                  style: TextStyle(
+                                                    color:
+                                                    AppColors.primaryText,
+                                                    fontFamily: "Arial",
+                                                    fontWeight: FontWeight.w400,
                                                   ),
-                                                  onPressed: () async {
-                                                    _submit(
-                                                        manageBookingsMutation, '', '');
-                                                  },
-                                                )
-                                          ),
+                                                ),
+                                                onPressed: () async {
+                                                  _submit(
+                                                      manageBookingsMutation:
+                                                      manageBookingsMutation,
+                                                      bookingId: bookings[index]
+                                                      ['id'],
+                                                      action: 'done');
+                                                },
+                                              )),
                                           Spacer(),
                                           Container(
-                                            height: 30,
-                                            margin:
-                                            EdgeInsets.only(top: 10, bottom: 5),
-                                            decoration: BoxDecoration(
-                                              color: Colors.redAccent,
-                                              border: Border.fromBorderSide(
-                                                  Borders.primaryBorder),
-                                              boxShadow: [
-                                                Shadows.primaryShadow,
-                                              ],
-                                              borderRadius: Radii.k10pxRadius,
-                                            ),
-                                            child:FlatButton(
-                                                  child: Text(
-                                                    'Cancel',
-                                                    style: TextStyle(
-                                                      color: AppColors.primaryText,
-                                                      fontFamily: "Arial",
-                                                      fontWeight: FontWeight.w400,
-                                                    ),
+                                              height: 30,
+                                              margin: EdgeInsets.only(
+                                                  top: 10, bottom: 5),
+                                              decoration: BoxDecoration(
+                                                color: Colors.redAccent,
+                                                border: Border.fromBorderSide(
+                                                    Borders.primaryBorder),
+                                                boxShadow: [
+                                                  Shadows.primaryShadow,
+                                                ],
+                                                borderRadius: Radii.k10pxRadius,
+                                              ),
+                                              child: FlatButton(
+                                                child: Text(
+                                                  'Cancel',
+                                                  style: TextStyle(
+                                                    color:
+                                                    AppColors.primaryText,
+                                                    fontFamily: "Arial",
+                                                    fontWeight: FontWeight.w400,
                                                   ),
-                                                  onPressed: () async {
-                                                    _submit(
-                                                        manageBookingsMutation, '', '');
-                                                  },
-                                                )
-                                          ),
+                                                ),
+                                                onPressed: () async {
+                                                  _submit(
+                                                      manageBookingsMutation:
+                                                      manageBookingsMutation,
+                                                      bookingId: bookings[index]
+                                                      ['id'],
+                                                      action: 'cancel');
+                                                },
+                                              )),
                                         ],
                                       ),
-
                                     if (bookings[index]['status'] == 'PENDING')
                                       Container(
                                         height: 30,
@@ -402,7 +411,11 @@ class AdminBookingsScreenWidget extends StatelessWidget {
                                           ),
                                           onPressed: () async {
                                             _submit(
-                                                manageBookingsMutation, '', '');
+                                                manageBookingsMutation:
+                                                manageBookingsMutation,
+                                                bookingId: bookings[index]
+                                                ['id'],
+                                                action: 'refresh');
                                           },
                                         ),
                                       ),
@@ -414,7 +427,7 @@ class AdminBookingsScreenWidget extends StatelessWidget {
                         ),
                       ),
                   ],
-                );
+                ), onRefresh: refetch);
               },
             ),
           );
