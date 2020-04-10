@@ -6,6 +6,8 @@
 *  Copyright © 2018 QOS-Software Solutions (Pty, Ltd). All rights reserved.
 */
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -70,8 +72,11 @@ class _SignInScreenWidgetState extends State<SignInScreenWidget> {
           onCompleted: (dynamic signInResultData) async {
             if (signInResultData != null) {
               String token = signInResultData['signin']['token'];
-              if (token.isNotEmpty) {
+              Map user = signInResultData['signin']['user'];
+              if (token.isNotEmpty && user != null) {
                 await AuthUtil().setToken(token);
+
+                await AuthUtil().setUser(jsonEncode(user));
 
                 Navigator.of(context)
                     .pushReplacementNamed(HomeScreenWidget.routeName);

@@ -11,6 +11,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:sosothebarber/graphql/queries.dart';
 import 'package:sosothebarber/screens/book_screen_widget.dart';
 import 'package:sosothebarber/screens/bookings_management_screen_widget.dart';
+import 'package:sosothebarber/widgets/alert_dialog_widget.dart';
 import 'package:sosothebarber/widgets/loading_widget.dart';
 
 import '../widgets/app_drawer.dart';
@@ -24,10 +25,12 @@ import '../values/values.dart';
 
 class ClientBookingsScreenWidget extends StatefulWidget {
   @override
-  _ClientBookingsScreenWidgetState createState() => _ClientBookingsScreenWidgetState();
+  _ClientBookingsScreenWidgetState createState() =>
+      _ClientBookingsScreenWidgetState();
 }
 
-class _ClientBookingsScreenWidgetState extends State<ClientBookingsScreenWidget> {
+class _ClientBookingsScreenWidgetState
+    extends State<ClientBookingsScreenWidget> {
   String _bookingId;
   String _itemName;
   String _itemDescription;
@@ -62,7 +65,8 @@ class _ClientBookingsScreenWidgetState extends State<ClientBookingsScreenWidget>
             return LoadingWidget();
           }
 
-          List<dynamic> bookings = userWithQueryResult.data != null
+          List<dynamic> bookings = userWithQueryResult.data != null &&
+                  userWithQueryResult.data['userWithBookings'] != null
               ? userWithQueryResult.data['userWithBookings']['bookings']
               : [];
 
@@ -79,16 +83,25 @@ class _ClientBookingsScreenWidgetState extends State<ClientBookingsScreenWidget>
                     String message =
                         manageBookingsResultData['manageBookings']['message'];
                     if (message.isNotEmpty && message.contains('pay')) {
-                      Navigator.of(context).pushNamed(
-                          BookScreenWidget.routeName,
-                          arguments: {
-                            'bookingId': _bookingId,
-                            'itemName': _itemName,
-                            'itemDescription': _itemDescription,
-                            'itemPrice': _itemPrice,
-                          });
-                    } else {
-                      Navigator.of(context).pushNamed(BookingsManagementScreenWidget.routeName);
+                      Navigator.of(context)
+                          .pushNamed(BookScreenWidget.routeName, arguments: {
+                        'bookingId': _bookingId,
+                        'itemName': _itemName,
+                        'itemDescription': _itemDescription,
+                        'itemPrice': _itemPrice,
+                      });
+                    } else if (message.isNotEmpty) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialogWidget(
+                            title: 'Completed',
+                            message: message,
+                            navigateTo:
+                                BookingsManagementScreenWidget.routeName,
+                          );
+                        },
+                      );
                     }
                     refetch();
                   }
@@ -323,9 +336,8 @@ class _ClientBookingsScreenWidgetState extends State<ClientBookingsScreenWidget>
                                         if (bookings[index]['status'] ==
                                             'ACTIVE')
                                           Container(
-                                              height: 30,
-                                              margin: EdgeInsets.only(
-                                                  top: 10, bottom: 5),
+                                              height: 25,
+                                              margin: EdgeInsets.only(top: 10),
                                               decoration: BoxDecoration(
                                                 color: Colors.redAccent,
                                                 border: Border.fromBorderSide(
@@ -362,9 +374,9 @@ class _ClientBookingsScreenWidgetState extends State<ClientBookingsScreenWidget>
                                                 MainAxisAlignment.start,
                                             children: <Widget>[
                                               Container(
-                                                  height: 30,
-                                                  margin: EdgeInsets.only(
-                                                      top: 10, bottom: 5),
+                                                  height: 25,
+                                                  margin:
+                                                      EdgeInsets.only(top: 10),
                                                   decoration: BoxDecoration(
                                                     color: Colors.lightGreen,
                                                     border:
@@ -390,16 +402,22 @@ class _ClientBookingsScreenWidgetState extends State<ClientBookingsScreenWidget>
                                                     ),
                                                     onPressed: () async {
                                                       setState(() {
-                                                        _bookingId = bookings[index]['id'];
-                                                        _itemName = bookings[index]['cut']
-                                                        ['title'];
+                                                        _bookingId =
+                                                            bookings[index]
+                                                                ['id'];
+                                                        _itemName =
+                                                            bookings[index]
+                                                                    ['cut']
+                                                                ['title'];
                                                         _itemDescription =
-                                                        bookings[index]['cut']
-                                                        ['description'];
-                                                        _itemPrice = double
-                                                            .parse(bookings[index]['cut']
-                                                        ['price']
-                                                            .toString());
+                                                            bookings[index]
+                                                                    ['cut']
+                                                                ['description'];
+                                                        _itemPrice = double.parse(
+                                                            bookings[index]
+                                                                        ['cut']
+                                                                    ['price']
+                                                                .toString());
                                                       });
                                                       _submit(
                                                         manageBookingsMutation:
@@ -413,9 +431,9 @@ class _ClientBookingsScreenWidgetState extends State<ClientBookingsScreenWidget>
                                                   )),
                                               Spacer(),
                                               Container(
-                                                  height: 30,
-                                                  margin: EdgeInsets.only(
-                                                      top: 10, bottom: 5),
+                                                  height: 25,
+                                                  margin:
+                                                      EdgeInsets.only(top: 10),
                                                   decoration: BoxDecoration(
                                                     color: Colors.redAccent,
                                                     border:

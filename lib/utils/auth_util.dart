@@ -20,4 +20,16 @@ class AuthUtil {
 
     return token;
   }
+
+  Future<void> setUser(String user) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('user', user);
+  }
+
+  Future<String> getUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String user = prefs.getString('user');
+
+    return user;
+  }
 }

@@ -35,20 +35,25 @@ class TextFormFieldWidget extends StatelessWidget {
           elevation: 10,
           child: TextFormField(
             decoration: InputDecoration(
-              hintText: label,
+              labelText: label,
               filled: true,
               fillColor: Theme.of(context).primaryColor,
               prefixIcon: icon,
-              contentPadding: EdgeInsets.only(top: 15,
-              left: mediaQuery.size.width * 0.02)
+              contentPadding:
+                  EdgeInsets.only(top: 15, left: mediaQuery.size.width * 0.02),
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(5.0))),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
+                  borderRadius:
+                  BorderRadius.all(Radius.circular(5.0))),
             ),
             textAlign: TextAlign.left,
             style: TextStyle(
-              color: AppColors.primaryText,
-              fontFamily: "Arial",
-              fontWeight: FontWeight.w400,
-              fontSize: 18
-            ),
+                color: AppColors.primaryText,
+                fontFamily: "Arial",
+                fontWeight: FontWeight.w400,
+                fontSize: 18),
             onChanged: (input) => inputChange(input),
             validator: validator,
             obscureText: secret,

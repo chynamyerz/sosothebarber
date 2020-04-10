@@ -38,6 +38,13 @@ class Mutations {
           password: \$password
         ){
           token
+          user {
+            id
+            email
+            displayName
+            phoneNumber
+            role
+          }
         }
       }
     ''';

@@ -256,9 +256,8 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                                   Container(
                                     margin:
                                         EdgeInsets.only(left: 15, right: 15),
-                                    child: Material(
+                                    child: Card(
                                       elevation: 8,
-                                      shadowColor: Colors.grey,
                                       child: DateTimeField(
                                         format: DateFormat("yyyy-MM-dd HH:mm"),
                                         readOnly: true,
@@ -268,7 +267,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                                           fontWeight: FontWeight.w400,
                                         ),
                                         decoration: InputDecoration(
-                                            hintText: 'Select date & time',
+                                            labelText: 'Select date & time',
                                             filled: true,
                                             fillColor:
                                                 Theme.of(context).primaryColor,
@@ -278,9 +277,15 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                                               color: Colors.black26,
                                             ),
                                             contentPadding: EdgeInsets.only(
-                                                top: 15,
                                                 left: mediaQuery.size.width *
-                                                    0.02)),
+                                                    0.02),
+                                          border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                                          focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(color: Theme.of(context).primaryColor),
+                                              borderRadius:
+                                              BorderRadius.all(Radius.circular(5.0))),
+                                        ),
                                         onShowPicker:
                                             (context, currentValue) async {
                                           final date = await showDatePicker(
@@ -432,9 +437,9 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                                                   ],
                                                 ),
                                                 Container(
-                                                  height: 30,
+                                                  height: 25,
                                                   margin: EdgeInsets.only(
-                                                      top: 10, bottom: 5),
+                                                      top: 10),
                                                   decoration: BoxDecoration(
                                                     color:
                                                         Colors.lightGreenAccent,

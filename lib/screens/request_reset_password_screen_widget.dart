@@ -78,6 +78,7 @@ class _RequestResetPasswordWidgetState
                       title: 'Completed',
                       message: message,
                       navigateTo: ResetPasswordWidget.routeName,
+                      replacePreviousNavigation: true,
                     );
                   },
                 );

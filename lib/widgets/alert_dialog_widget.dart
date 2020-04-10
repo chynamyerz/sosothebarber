@@ -12,9 +12,10 @@ import 'package:sosothebarber/utils/general_util.dart';
 class AlertDialogWidget extends StatelessWidget {
   final String title;
   final String message;
+  final bool replacePreviousNavigation;
   final String navigateTo;
 
-  AlertDialogWidget({this.title, this.message, this.navigateTo});
+  AlertDialogWidget({this.title, this.message, this.navigateTo, this.replacePreviousNavigation = false});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,11 @@ class AlertDialogWidget extends StatelessWidget {
         FlatButton(
           child: Text('OK'),
           onPressed: () {
-            Navigator.of(context).pushNamed(navigateTo);
+            if (replacePreviousNavigation) {
+              Navigator.of(context).pushReplacementNamed(navigateTo);
+            } else {
+              Navigator.of(context).pushNamed(navigateTo);
+            }
           },
         )
       ],

@@ -80,6 +80,7 @@ class _SignUpScreenWidgetState extends State<SignUpScreenWidget> {
                       title: 'Completed',
                       message: message,
                       navigateTo: SignInScreenWidget.routeName,
+                      replacePreviousNavigation: true,
                     );
                   },
                 );

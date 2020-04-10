@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:sosothebarber/screens/bookings_management_screen_widget.dart';
+import 'package:sosothebarber/widgets/alert_dialog_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -51,7 +52,6 @@ class BookScreenWidget extends StatelessWidget {
     final String url = Uri.encodeFull(
         '$payFastUrl?merchant_id=$payFastMerchantId&merchant_key=$payFastMerchantKey&item_name=$itemName&item_description=$itemDescription&amount=$itemPrice&return_url=$successUrl&cancel_url=$cancelUrl'
     );
-        print(url);
 
     Future<void> _submit(Function bookMutation, bool status) async {
       try {
@@ -82,7 +82,17 @@ class BookScreenWidget extends StatelessWidget {
                 String message =
                     bookSucceedResultData['bookSucceed']['message'];
                 if (message.isNotEmpty) {
-                  print('Done');
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialogWidget(
+                        title: 'Completed',
+                        message: message,
+                        navigateTo: BookingsManagementScreenWidget.routeName,
+                        replacePreviousNavigation: true,
+                      );
+                    },
+                  );
                 }
               }
             },
@@ -101,14 +111,10 @@ class BookScreenWidget extends StatelessWidget {
               navigationDelegate: (NavigationRequest request) {
                 if (request.url == cancelUrl) {
                   _submit(bookSucceedMutation, false);
-                  Navigator.of(context)
-                      .pushReplacementNamed(HomeScreenWidget.routeName);
                 }
 
                 if (request.url == successUrl) {
                   _submit(bookSucceedMutation, true);
-                  Navigator.of(context)
-                      .pushReplacementNamed(BookingsManagementScreenWidget.routeName);
                 }
 
                 return NavigationDecision.navigate;

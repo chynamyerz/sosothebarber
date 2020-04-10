@@ -76,6 +76,7 @@ class _ResetPasswordWidgetState extends State<ResetPasswordWidget> {
                       title: 'Completed',
                       message: message,
                       navigateTo: SignInScreenWidget.routeName,
+                      replacePreviousNavigation: true,
                     );
                   },
                 );

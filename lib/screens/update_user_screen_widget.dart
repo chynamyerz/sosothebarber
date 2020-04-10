@@ -111,6 +111,7 @@ class _UpdateUserScreenWidgetState extends State<UpdateUserScreenWidget> {
                           );
                         },
                       );
+                      refetch();
                     }
                   }
                 },

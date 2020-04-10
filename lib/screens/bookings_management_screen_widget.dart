@@ -6,20 +6,58 @@
 *  Copyright © 2018 QOS-Software Solutions (Pty, Ltd). All rights reserved.
 */
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:sosothebarber/graphql/queries.dart';
-import 'package:sosothebarber/screens/admin_bookings_screen_widget.dart';
-import 'package:sosothebarber/screens/client_bookings_screen_widget.dart';
-import 'package:sosothebarber/widgets/loading_widget.dart';
+
+import '../screens/admin_bookings_screen_widget.dart';
+import '../screens/client_bookings_screen_widget.dart';
 
 import '../widgets/app_drawer.dart';
 import '../widgets/top_bar_shape_widget.dart';
+import '../widgets/loading_widget.dart';
+
+import '../utils/auth_util.dart';
 
 import '../values/values.dart';
 
-class BookingsManagementScreenWidget extends StatelessWidget {
+class BookingsManagementScreenWidget extends StatefulWidget {
   static final String routeName = '/bookings-management';
+
+  @override
+  _BookingsManagementScreenWidgetState createState() =>
+      _BookingsManagementScreenWidgetState();
+}
+
+class _BookingsManagementScreenWidgetState
+    extends State<BookingsManagementScreenWidget> {
+  Map _user;
+  bool _isInit = true;
+  bool _isLoading = false;
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      setState(() {
+        _isLoading = true;
+      });
+
+      AuthUtil().getUser().then((res) {
+        if (res != null) {
+          setState(() {
+            _user = jsonDecode(res);
+          });
+        }
+        setState(() {
+          _isLoading = false;
+        });
+      });
+    }
+    setState(() {
+      _isInit = false;
+    });
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,32 +93,15 @@ class BookingsManagementScreenWidget extends StatelessWidget {
             ),
           ),
           SizedBox(height: mediaQuery.size.height * 0.025),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Query(
-                options: QueryOptions(documentNode: gql(Queries().user)),
-                builder: (
-                  QueryResult userQueryResult, {
-                  VoidCallback refetch,
-                  FetchMore fetchMore,
-                }) {
-                  if (userQueryResult.loading) {
-                    return LoadingWidget();
-                  }
-                  Map user;
-                  if (userQueryResult.data != null) {
-                    if (userQueryResult.data['user'] != null) {
-                      user = userQueryResult.data['user'];
-                    }
-                  }
-
-                  return user != null && user['role'] == 'ADMIN'
-                      ? AdminBookingsScreenWidget()
-                      : ClientBookingsScreenWidget();
-                },
+          if (_isLoading) LoadingWidget(),
+          if (!_isLoading)
+            Expanded(
+              child: SingleChildScrollView(
+                child: _user != null && _user['role'] == 'ADMIN'
+                    ? AdminBookingsScreenWidget()
+                    : ClientBookingsScreenWidget(),
               ),
             ),
-          ),
         ],
       ),
     );

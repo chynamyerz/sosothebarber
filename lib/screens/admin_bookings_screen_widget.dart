@@ -11,6 +11,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:sosothebarber/graphql/queries.dart';
 import 'package:sosothebarber/screens/book_screen_widget.dart';
 import 'package:sosothebarber/screens/bookings_management_screen_widget.dart';
+import 'package:sosothebarber/widgets/alert_dialog_widget.dart';
 import 'package:sosothebarber/widgets/loading_widget.dart';
 
 import '../widgets/app_drawer.dart';
@@ -53,7 +54,7 @@ class AdminBookingsScreenWidget extends StatelessWidget {
           }
 
           List<dynamic> bookings = bookingsQueryResult.data != null
-              ? bookingsQueryResult.data['bookingsWithUser']
+              && bookingsQueryResult.data['bookingsWithUser'] != null ? bookingsQueryResult.data['bookingsWithUser']
               : [];
 
           return RefreshIndicator(
@@ -69,8 +70,16 @@ class AdminBookingsScreenWidget extends StatelessWidget {
                     String message =
                         manageBookingsResultData['manageBookings']['message'];
                     if (message.isNotEmpty) {
-                      Navigator.of(context)
-                          .pushNamed(BookingsManagementScreenWidget.routeName);
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialogWidget(
+                            title: 'Completed',
+                            message: message,
+                            navigateTo: BookingsManagementScreenWidget.routeName,
+                          );
+                        },
+                      );
                     }
                     refetch();
                   }
@@ -321,9 +330,9 @@ class AdminBookingsScreenWidget extends StatelessWidget {
                                         MainAxisAlignment.start,
                                         children: <Widget>[
                                           Container(
-                                              height: 30,
+                                              height: 25,
                                               margin: EdgeInsets.only(
-                                                  top: 10, bottom: 5),
+                                                  top: 10),
                                               decoration: BoxDecoration(
                                                 color: Colors.lightBlueAccent,
                                                 border: Border.fromBorderSide(
@@ -354,9 +363,9 @@ class AdminBookingsScreenWidget extends StatelessWidget {
                                               )),
                                           Spacer(),
                                           Container(
-                                              height: 30,
+                                              height: 25,
                                               margin: EdgeInsets.only(
-                                                  top: 10, bottom: 5),
+                                                  top: 10),
                                               decoration: BoxDecoration(
                                                 color: Colors.redAccent,
                                                 border: Border.fromBorderSide(
@@ -389,9 +398,9 @@ class AdminBookingsScreenWidget extends StatelessWidget {
                                       ),
                                     if (bookings[index]['status'] == 'PENDING')
                                       Container(
-                                        height: 30,
+                                        height: 25,
                                         margin:
-                                        EdgeInsets.only(top: 10, bottom: 5),
+                                        EdgeInsets.only(top: 10),
                                         decoration: BoxDecoration(
                                           color: Colors.white60,
                                           border: Border.fromBorderSide(

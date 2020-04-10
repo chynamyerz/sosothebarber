@@ -30,8 +30,8 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final HttpLink httpLink = HttpLink(
-      uri: 'http://192.168.1.35:4000/',
-//      uri: 'https://sosothebarber-api.now.sh/',
+//      uri: 'http://192.168.1.35:4000/',
+      uri: 'https://sosothebarber-api.now.sh/',
     );
 
     String token;
@@ -55,20 +55,22 @@ class App extends StatelessWidget {
 
     return GraphQLProvider(
       client: client,
-      child: MaterialApp(
-        title: 'Soso the barber',
-        theme: ThemeData(primaryColor: Color.fromARGB(255, 247, 255, 255)),
-        home: SignInScreenWidget(),
-        routes: {
-          HomeScreenWidget.routeName: (_) => HomeScreenWidget(),
-          SignInScreenWidget.routeName: (_) => SignInScreenWidget(),
-          SignUpScreenWidget.routeName: (_) => SignUpScreenWidget(),
-          RequestResetPasswordWidget.routeName: (_) => RequestResetPasswordWidget(),
-          ResetPasswordWidget.routeName: (_) => ResetPasswordWidget(),
-          UpdateUserScreenWidget.routeName: (_) => UpdateUserScreenWidget(),
-          BookScreenWidget.routeName: (_) => BookScreenWidget(),
-          BookingsManagementScreenWidget.routeName: (_) => BookingsManagementScreenWidget(),
-        },
+      child: CacheProvider(
+        child: MaterialApp(
+          title: 'Soso the barber',
+          theme: ThemeData(primaryColor: Color.fromARGB(255, 247, 255, 255)),
+          home: SignInScreenWidget(),
+          routes: {
+            HomeScreenWidget.routeName: (_) => HomeScreenWidget(),
+            SignInScreenWidget.routeName: (_) => SignInScreenWidget(),
+            SignUpScreenWidget.routeName: (_) => SignUpScreenWidget(),
+            RequestResetPasswordWidget.routeName: (_) => RequestResetPasswordWidget(),
+            ResetPasswordWidget.routeName: (_) => ResetPasswordWidget(),
+            UpdateUserScreenWidget.routeName: (_) => UpdateUserScreenWidget(),
+            BookScreenWidget.routeName: (_) => BookScreenWidget(),
+            BookingsManagementScreenWidget.routeName: (_) => BookingsManagementScreenWidget(),
+          },
+        ),
       ),
     );
   }
