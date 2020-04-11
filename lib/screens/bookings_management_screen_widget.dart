@@ -51,6 +51,10 @@ class _BookingsManagementScreenWidgetState
         setState(() {
           _isLoading = false;
         });
+      }).catchError((error) {
+        setState(() {
+          _isLoading = false;
+        });
       });
     }
     setState(() {

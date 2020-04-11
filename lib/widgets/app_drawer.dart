@@ -45,6 +45,10 @@ class _AppDrawerState extends State<AppDrawer> {
         setState(() {
           _isLoading = false;
         });
+      }).catchError((error) {
+        setState(() {
+          _isLoading = false;
+        });
       });
     }
     setState(() {

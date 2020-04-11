@@ -30,8 +30,8 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final HttpLink httpLink = HttpLink(
-      uri: 'http://192.168.1.35:4000/',
-//      uri: 'https://sosothebarber-api.now.sh/',
+//      uri: 'http://192.168.1.35:4000/',
+      uri: 'https://sosothebarber-api.now.sh/',
     );
 
     String token;
