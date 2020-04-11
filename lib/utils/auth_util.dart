@@ -6,6 +6,8 @@
 *  Copyright © 2018 QOS-Software Solutions (Pty, Ltd). All rights reserved.
 */
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:jaguar_jwt/jaguar_jwt.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthUtil {
@@ -27,9 +29,20 @@ class AuthUtil {
   }
 
   Future<String> getUser() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String user = prefs.getString('user');
+    try {
+      final DotEnv dotEnv = DotEnv();
+      // Verify the signature in the JWT and extract its claim set
+      final decClaimSet = verifyJwtHS256Signature(
+        await this.getToken(),
+        dotEnv.env['JWT_SECRET'],
+      );
 
-    return user;
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String user = prefs.getString('user');
+
+      return user;
+    } on JwtException catch (e) {
+      return null;
+    }
   }
 }

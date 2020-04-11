@@ -25,6 +25,7 @@ dependencies:
   webview_flutter:
   url_launcher:
   flutter_dotenv:
+  jaguar_jwt:
   flutter:
     sdk: flutter
 

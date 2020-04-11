@@ -12,10 +12,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:sosothebarber/screens/bookings_management_screen_widget.dart';
 import 'package:sosothebarber/widgets/alert_dialog_widget.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-
-import '../screens/home_screen_widget.dart';
 
 import '../widgets/app_drawer.dart';
 

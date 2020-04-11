@@ -336,19 +336,19 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                                               children: <Widget>[
                                                 Row(
                                                   mainAxisAlignment:
-                                                      MainAxisAlignment.start,
+                                                  MainAxisAlignment.start,
                                                   children: [
                                                     Column(
                                                       crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
+                                                      CrossAxisAlignment
+                                                          .start,
                                                       children: <Widget>[
                                                         Text(
                                                           "Title",
                                                           style: TextStyle(
                                                             fontFamily: "Arial",
                                                             fontWeight:
-                                                                FontWeight.bold,
+                                                            FontWeight.bold,
                                                           ),
                                                         ),
                                                         Text(
@@ -356,7 +356,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                                                           style: TextStyle(
                                                             fontFamily: "Arial",
                                                             fontWeight:
-                                                                FontWeight.bold,
+                                                            FontWeight.bold,
                                                           ),
                                                         ),
                                                         Text(
@@ -364,22 +364,22 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                                                           style: TextStyle(
                                                             fontFamily: "Arial",
                                                             fontWeight:
-                                                                FontWeight.bold,
+                                                            FontWeight.bold,
                                                           ),
                                                         ),
                                                       ],
                                                     ),
                                                     Column(
                                                       crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
+                                                      CrossAxisAlignment
+                                                          .start,
                                                       children: <Widget>[
                                                         Text(
                                                           ":",
                                                           style: TextStyle(
                                                             fontFamily: "Arial",
                                                             fontWeight:
-                                                                FontWeight.bold,
+                                                            FontWeight.bold,
                                                           ),
                                                         ),
                                                         Text(
@@ -387,7 +387,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                                                           style: TextStyle(
                                                             fontFamily: "Arial",
                                                             fontWeight:
-                                                                FontWeight.bold,
+                                                            FontWeight.bold,
                                                           ),
                                                         ),
                                                         Text(
@@ -395,45 +395,59 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                                                           style: TextStyle(
                                                             fontFamily: "Arial",
                                                             fontWeight:
-                                                                FontWeight.bold,
+                                                            FontWeight.bold,
                                                           ),
                                                         ),
                                                       ],
                                                     ),
-                                                    Column(
+                                                    Expanded(child: Column(
                                                       crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
+                                                      CrossAxisAlignment
+                                                          .start,
                                                       children: <Widget>[
                                                         Text(
                                                           cuts[index]['title'],
                                                           style: TextStyle(
                                                             fontFamily: "Arial",
                                                             fontWeight:
-                                                                FontWeight.w400,
+                                                            FontWeight.w400,
                                                           ),
                                                         ),
-                                                        Text(
+                                                        SingleChildScrollView(
+                                                          scrollDirection: Axis.horizontal,
+                                                          child: Text(
                                                           cuts[index]
-                                                              ['description'],
+                                                          ['description'],
                                                           style: TextStyle(
                                                             fontFamily: "Arial",
                                                             fontWeight:
-                                                                FontWeight.w400,
+                                                            FontWeight.w400,
                                                           ),
-                                                        ),
-                                                        Text(
-                                                          'R${cuts[index]['price']}',
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                          style: TextStyle(
-                                                            fontFamily: "Arial",
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                          ),
+                                                        ),),
+                                                        Row(
+                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                          children: <Widget>[
+                                                            Text(
+                                                              'R ',
+                                                              textAlign: TextAlign.left,
+                                                              style: TextStyle(
+                                                                fontFamily: "Arial",
+                                                                fontStyle: FontStyle.italic,
+                                                                fontWeight: FontWeight.bold,
+                                                              ),
+                                                            ),
+                                                            Text(
+                                                              '${cuts[index]['price']}',
+                                                              textAlign: TextAlign.left,
+                                                              style: TextStyle(
+                                                                fontFamily: "Arial",
+                                                                fontWeight: FontWeight.w400,
+                                                              ),
+                                                            )
+                                                          ],
                                                         ),
                                                       ],
-                                                    ),
+                                                    ),),
                                                   ],
                                                 ),
                                                 Container(
