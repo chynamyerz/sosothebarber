@@ -12,6 +12,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:sosothebarber/screens/book_screen_widget.dart';
 import 'package:sosothebarber/screens/bookings_management_screen_widget.dart';
 import 'package:sosothebarber/screens/client_bookings_screen_widget.dart';
+import 'package:sosothebarber/screens/contact_screen_widget.dart';
 import 'package:sosothebarber/screens/request_reset_password_screen_widget.dart';
 import 'package:sosothebarber/screens/reset_password_screen_widget.dart';
 import 'package:sosothebarber/screens/signup_screen_widget.dart';
@@ -69,6 +70,7 @@ class App extends StatelessWidget {
             UpdateUserScreenWidget.routeName: (_) => UpdateUserScreenWidget(),
             BookScreenWidget.routeName: (_) => BookScreenWidget(),
             BookingsManagementScreenWidget.routeName: (_) => BookingsManagementScreenWidget(),
+            ContactScreenWidget.routeName: (_) => ContactScreenWidget(),
           },
         ),
       ),
