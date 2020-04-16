@@ -49,6 +49,12 @@ class AdminBookingsScreenWidget extends StatelessWidget {
           VoidCallback refetch,
           FetchMore fetchMore,
         }) {
+          String errorResponseMessage;
+          if (bookingsQueryResult.hasException) {
+            errorResponseMessage = GeneralUtil()
+                .graphQLError(bookingsQueryResult.exception.toString());
+          }
+
           if (bookingsQueryResult.loading) {
             return LoadingWidget();
           }
@@ -89,7 +95,6 @@ class AdminBookingsScreenWidget extends StatelessWidget {
                 RunMutation manageBookingsMutation,
                 QueryResult manageBookingsResult,
               ) {
-                String errorResponseMessage;
                 if (manageBookingsResult.hasException) {
                   errorResponseMessage = GeneralUtil()
                       .graphQLError(manageBookingsResult.exception.toString());

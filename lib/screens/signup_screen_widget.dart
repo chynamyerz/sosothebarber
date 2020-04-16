@@ -157,6 +157,7 @@ class _SignUpScreenWidgetState extends State<SignUpScreenWidget> {
                             color: Colors.black26,
                           ),
                           label: "Display name",
+                          initialValue: _displayName,
                           inputChange: (String input) {
                             setState(() {
                               _displayName = input.trim();
@@ -178,6 +179,7 @@ class _SignUpScreenWidgetState extends State<SignUpScreenWidget> {
                             color: Colors.black26,
                           ),
                           label: "Email",
+                          initialValue: _email,
                           inputChange: (String input) {
                             setState(() {
                               _email = input.trim();
@@ -202,6 +204,7 @@ class _SignUpScreenWidgetState extends State<SignUpScreenWidget> {
                             color: Colors.black26,
                           ),
                           label: "Phone number",
+                          initialValue: _phoneNumber,
                           inputChange: (String input) {
                             setState(() {
                               _phoneNumber = input.trim();
@@ -223,6 +226,7 @@ class _SignUpScreenWidgetState extends State<SignUpScreenWidget> {
                             color: Colors.black26,
                           ),
                           label: "Password",
+                          initialValue: _password,
                           inputChange: (String input) {
                             setState(() {
                               _password = input;

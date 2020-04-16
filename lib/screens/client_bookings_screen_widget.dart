@@ -61,6 +61,12 @@ class _ClientBookingsScreenWidgetState
           VoidCallback refetch,
           FetchMore fetchMore,
         }) {
+          String errorResponseMessage;
+          if (userWithQueryResult.hasException) {
+            errorResponseMessage = GeneralUtil()
+                .graphQLError(userWithQueryResult.exception.toString());
+          }
+
           if (userWithQueryResult.loading) {
             return LoadingWidget();
           }
@@ -111,7 +117,7 @@ class _ClientBookingsScreenWidgetState
                 RunMutation manageBookingsMutation,
                 QueryResult manageBookingsResult,
               ) {
-                String errorResponseMessage;
+                errorResponseMessage;
                 if (manageBookingsResult.hasException) {
                   errorResponseMessage = GeneralUtil()
                       .graphQLError(manageBookingsResult.exception.toString());

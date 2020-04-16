@@ -32,36 +32,35 @@ class BookingsManagementScreenWidget extends StatefulWidget {
 class _BookingsManagementScreenWidgetState
     extends State<BookingsManagementScreenWidget> {
   Map _user;
-  bool _isInit = true;
   bool _isLoading = false;
 
   @override
   void didChangeDependencies() {
-    if (_isInit) {
-      setState(() {
-        _isLoading = true;
-      });
-
-      AuthUtil().getUser().then((res) {
-        if (res != null) {
-          setState(() {
-            _user = jsonDecode(res);
-          });
-        }
-        setState(() {
-          _isLoading = false;
-        });
-      });
-    }
     setState(() {
-      _isInit = false;
+      _isLoading = true;
     });
+
+    AuthUtil().getUser().then((res) {
+      if (res != null) {
+        setState(() {
+          _user = jsonDecode(res);
+        });
+      }
+      setState(() {
+        _isLoading = false;
+      });
+    });
+
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
+
+    if (_isLoading) {
+      return LoadingWidget();
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -93,15 +92,13 @@ class _BookingsManagementScreenWidgetState
             ),
           ),
           SizedBox(height: mediaQuery.size.height * 0.025),
-          if (_isLoading) LoadingWidget(),
-          if (!_isLoading)
-            Expanded(
-              child: SingleChildScrollView(
-                child: _user != null && _user['role'] == 'ADMIN'
-                    ? AdminBookingsScreenWidget()
-                    : ClientBookingsScreenWidget(),
-              ),
+          Expanded(
+            child: SingleChildScrollView(
+              child: _user != null && _user['role'] == 'ADMIN'
+                  ? AdminBookingsScreenWidget()
+                  : ClientBookingsScreenWidget(),
             ),
+          ),
         ],
       ),
     );

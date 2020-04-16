@@ -86,7 +86,12 @@ class _UpdateUserScreenWidgetState extends State<UpdateUserScreenWidget> {
             }
           }
           if (user == null) {
-            Navigator.of(context).pushReplacementNamed(SignInScreenWidget.routeName);
+            return AlertDialogWidget(
+              title: 'Message',
+              message: 'You are not signed in.\nPlease sign in to update your informaion.',
+              navigateTo: SignInScreenWidget.routeName,
+              replacePreviousNavigation: true,
+            );
           }
           return RefreshIndicator(
             onRefresh: refetch,

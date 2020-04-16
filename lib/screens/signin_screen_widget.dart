@@ -153,6 +153,7 @@ class _SignInScreenWidgetState extends State<SignInScreenWidget> {
                             size: 24,
                           ),
                           label: "Email",
+                          initialValue: _email,
                           inputChange: (String input) {
                             setState(() {
                               _email = input.trim();
@@ -177,6 +178,7 @@ class _SignInScreenWidgetState extends State<SignInScreenWidget> {
                             color: Colors.black26,
                           ),
                           label: "Password",
+                          initialValue: _password,
                           inputChange: (String input) {
                             setState(() {
                               _password = input;

@@ -309,6 +309,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                                             return currentValue;
                                           }
                                         },
+                                        initialValue: _selectedDateTime,
                                         onChanged: (input) {
                                           setState(() {
                                             _selectedDateTime = input;

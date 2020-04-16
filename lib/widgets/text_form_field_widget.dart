@@ -13,6 +13,7 @@ import '../values/values.dart';
 class TextFormFieldWidget extends StatelessWidget {
   final Icon icon;
   final String label;
+  final String initialValue;
   final bool secret;
   final Function validator;
   final Function inputChange;
@@ -21,6 +22,7 @@ class TextFormFieldWidget extends StatelessWidget {
     @required this.icon,
     @required this.label,
     @required this.inputChange,
+    this.initialValue,
     this.secret = false,
     this.validator,
   });
@@ -34,6 +36,7 @@ class TextFormFieldWidget extends StatelessWidget {
       child: Card(
           elevation: 10,
           child: TextFormField(
+            initialValue: initialValue,
             decoration: InputDecoration(
               labelText: label,
               filled: true,

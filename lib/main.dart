@@ -55,22 +55,20 @@ class App extends StatelessWidget {
 
     return GraphQLProvider(
       client: client,
-      child: CacheProvider(
-        child: MaterialApp(
-          title: 'Soso the barber',
-          theme: ThemeData(primaryColor: Color.fromARGB(255, 247, 255, 255)),
-          home: SignInScreenWidget(),
-          routes: {
-            HomeScreenWidget.routeName: (_) => HomeScreenWidget(),
-            SignInScreenWidget.routeName: (_) => SignInScreenWidget(),
-            SignUpScreenWidget.routeName: (_) => SignUpScreenWidget(),
-            RequestResetPasswordWidget.routeName: (_) => RequestResetPasswordWidget(),
-            ResetPasswordWidget.routeName: (_) => ResetPasswordWidget(),
-            UpdateUserScreenWidget.routeName: (_) => UpdateUserScreenWidget(),
-            BookScreenWidget.routeName: (_) => BookScreenWidget(),
-            BookingsManagementScreenWidget.routeName: (_) => BookingsManagementScreenWidget(),
-          },
-        ),
+      child: MaterialApp(
+        title: 'Soso the barber',
+        theme: ThemeData(primaryColor: Color.fromARGB(255, 247, 255, 255)),
+        home: SignInScreenWidget(),
+        routes: {
+          HomeScreenWidget.routeName: (_) => HomeScreenWidget(),
+          SignInScreenWidget.routeName: (_) => SignInScreenWidget(),
+          SignUpScreenWidget.routeName: (_) => SignUpScreenWidget(),
+          RequestResetPasswordWidget.routeName: (_) => RequestResetPasswordWidget(),
+          ResetPasswordWidget.routeName: (_) => ResetPasswordWidget(),
+          UpdateUserScreenWidget.routeName: (_) => UpdateUserScreenWidget(),
+          BookScreenWidget.routeName: (_) => BookScreenWidget(),
+          BookingsManagementScreenWidget.routeName: (_) => BookingsManagementScreenWidget(),
+        },
       ),
     );
   }

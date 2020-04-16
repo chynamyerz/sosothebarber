@@ -156,6 +156,7 @@ class _RequestResetPasswordWidgetState
                             color: Colors.black26,
                           ),
                           label: "Email",
+                          initialValue: _email,
                           inputChange: (String input) {
                             setState(() {
                               _email = input.trim();

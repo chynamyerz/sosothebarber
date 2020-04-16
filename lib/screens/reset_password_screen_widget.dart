@@ -153,6 +153,7 @@ class _ResetPasswordWidgetState extends State<ResetPasswordWidget> {
                             color: Colors.black26,
                           ),
                           label: "One time pin",
+                          initialValue: _oneTimePin,
                           inputChange: (input) {
                             setState(() {
                               _oneTimePin = input;
@@ -174,6 +175,7 @@ class _ResetPasswordWidgetState extends State<ResetPasswordWidget> {
                             color: Colors.black26,
                           ),
                           label: "Password",
+                          initialValue: _password,
                           inputChange: (String input) {
                             setState(() {
                               _password = input;

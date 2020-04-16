@@ -26,29 +26,23 @@ class AppDrawer extends StatefulWidget {
 
 class _AppDrawerState extends State<AppDrawer> {
   Map _user;
-  bool _isInit = true;
   bool _isLoading = false;
 
   @override
   void didChangeDependencies() {
-    if (_isInit) {
-      setState(() {
-        _isLoading = true;
-      });
-
-      AuthUtil().getUser().then((res) {
-        if (res != null) {
-          setState(() {
-            _user = jsonDecode(res);
-          });
-        }
-        setState(() {
-          _isLoading = false;
-        });
-      });
-    }
     setState(() {
-      _isInit = false;
+      _isLoading = true;
+    });
+
+    AuthUtil().getUser().then((res) {
+      if (res != null) {
+        setState(() {
+          _user = jsonDecode(res);
+        });
+      }
+      setState(() {
+        _isLoading = false;
+      });
     });
     super.didChangeDependencies();
   }
