@@ -258,84 +258,103 @@ class _ClientBookingsScreenWidgetState
                                                 ),
                                               ],
                                             ),
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                Text(
-                                                  bookings[index]['cut']
-                                                      ['title'],
-                                                  style: TextStyle(
-                                                    fontFamily: "Arial",
-                                                    fontWeight: FontWeight.w400,
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  Text(
+                                                    bookings[index]['cut']
+                                                    ['title'],
+                                                    style: TextStyle(
+                                                      fontFamily: "Arial",
+                                                      fontWeight: FontWeight.w400,
+                                                    ),
                                                   ),
-                                                ),
-                                                Text(
-                                                  bookings[index]['cut']
+                                                  SingleChildScrollView(
+                                                    scrollDirection: Axis.horizontal,
+                                                    child: Text(
+                                                      bookings[index]['cut']
                                                       ['description'],
-                                                  style: TextStyle(
-                                                    fontFamily: "Arial",
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  'R${bookings[index]['cut']['price']}',
-                                                  textAlign: TextAlign.left,
-                                                  style: TextStyle(
-                                                    fontFamily: "Arial",
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                ),
-                                                if (bookings[index]['status'] ==
-                                                    'ACTIVE')
-                                                  Text(
-                                                    '${bookings[index]['status']}',
-                                                    textAlign: TextAlign.left,
-                                                    style: TextStyle(
-                                                      color: Colors.lightGreen,
-                                                      fontFamily: "Arial",
-                                                      fontWeight:
-                                                          FontWeight.bold,
+                                                      style: TextStyle(
+                                                        fontFamily: "Arial",
+                                                        fontWeight: FontWeight.w400,
+                                                      ),
                                                     ),
                                                   ),
-                                                if (bookings[index]['status'] ==
-                                                    'PENDING')
-                                                  Text(
-                                                    '${bookings[index]['status']}',
-                                                    textAlign: TextAlign.left,
-                                                    style: TextStyle(
-                                                      color: Colors.amberAccent,
-                                                      fontFamily: "Arial",
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    children: <Widget>[
+                                                      Text(
+                                                        'R ',
+                                                        textAlign: TextAlign.left,
+                                                        style: TextStyle(
+                                                          fontFamily: "Arial",
+                                                          fontStyle: FontStyle.italic,
+                                                          fontWeight: FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        '${bookings[index]['cut']['price']}',
+                                                        textAlign: TextAlign.left,
+                                                        style: TextStyle(
+                                                          fontFamily: "Arial",
+                                                          fontWeight: FontWeight.w400,
+                                                        ),
+                                                      )
+                                                    ],
                                                   ),
-                                                if (bookings[index]['status'] ==
-                                                    'CANCELLED')
-                                                  Text(
-                                                    '${bookings[index]['status']}',
-                                                    textAlign: TextAlign.left,
-                                                    style: TextStyle(
-                                                      color: Colors.redAccent,
-                                                      fontFamily: "Arial",
-                                                      fontWeight:
-                                                          FontWeight.bold,
+                                                  if (bookings[index]['status'] ==
+                                                      'ACTIVE')
+                                                    Text(
+                                                      '${bookings[index]['status']}',
+                                                      textAlign: TextAlign.left,
+                                                      style: TextStyle(
+                                                        color: Colors.lightGreen,
+                                                        fontFamily: "Arial",
+                                                        fontWeight:
+                                                        FontWeight.bold,
+                                                      ),
                                                     ),
-                                                  ),
-                                                if (bookings[index]['status'] ==
-                                                    'DONE')
-                                                  Text(
-                                                    '${bookings[index]['status']}',
-                                                    textAlign: TextAlign.left,
-                                                    style: TextStyle(
-                                                      color: Colors
-                                                          .lightBlueAccent,
-                                                      fontFamily: "Arial",
-                                                      fontWeight:
-                                                          FontWeight.bold,
+                                                  if (bookings[index]['status'] ==
+                                                      'PENDING')
+                                                    Text(
+                                                      '${bookings[index]['status']}',
+                                                      textAlign: TextAlign.left,
+                                                      style: TextStyle(
+                                                        color: Colors.amberAccent,
+                                                        fontFamily: "Arial",
+                                                        fontWeight:
+                                                        FontWeight.bold,
+                                                      ),
                                                     ),
-                                                  ),
-                                              ],
+                                                  if (bookings[index]['status'] ==
+                                                      'CANCELLED')
+                                                    Text(
+                                                      '${bookings[index]['status']}',
+                                                      textAlign: TextAlign.left,
+                                                      style: TextStyle(
+                                                        color: Colors.redAccent,
+                                                        fontFamily: "Arial",
+                                                        fontWeight:
+                                                        FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  if (bookings[index]['status'] ==
+                                                      'DONE')
+                                                    Text(
+                                                      '${bookings[index]['status']}',
+                                                      textAlign: TextAlign.left,
+                                                      style: TextStyle(
+                                                        color: Colors
+                                                            .lightBlueAccent,
+                                                        fontFamily: "Arial",
+                                                        fontWeight:
+                                                        FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                ],
+                                              ),
                                             ),
                                           ],
                                         ),

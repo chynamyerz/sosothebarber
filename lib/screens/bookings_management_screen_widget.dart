@@ -46,11 +46,14 @@ class _BookingsManagementScreenWidgetState
           _user = jsonDecode(res);
         });
       }
+    }).catchError((error) {
       setState(() {
-        _isLoading = false;
+        _user = null;
       });
     });
-
+    setState(() {
+      _isLoading = false;
+    });
     super.didChangeDependencies();
   }
 

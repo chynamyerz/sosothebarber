@@ -12,6 +12,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:sosothebarber/screens/book_screen_widget.dart';
 import 'package:sosothebarber/screens/bookings_management_screen_widget.dart';
 import 'package:sosothebarber/screens/client_bookings_screen_widget.dart';
+import 'package:sosothebarber/screens/contact_screen_widget.dart';
 import 'package:sosothebarber/screens/request_reset_password_screen_widget.dart';
 import 'package:sosothebarber/screens/reset_password_screen_widget.dart';
 import 'package:sosothebarber/screens/signup_screen_widget.dart';
@@ -30,8 +31,8 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final HttpLink httpLink = HttpLink(
-//      uri: 'http://192.168.1.35:4000/',
-      uri: 'https://sosothebarber-api.now.sh/',
+        uri: 'http://192.168.1.55:4000/',
+//      uri: 'https://sosothebarber-api.now.sh/',
     );
 
     String token;
@@ -55,20 +56,23 @@ class App extends StatelessWidget {
 
     return GraphQLProvider(
       client: client,
-      child: MaterialApp(
-        title: 'Soso the barber',
-        theme: ThemeData(primaryColor: Color.fromARGB(255, 247, 255, 255)),
-        home: SignInScreenWidget(),
-        routes: {
-          HomeScreenWidget.routeName: (_) => HomeScreenWidget(),
-          SignInScreenWidget.routeName: (_) => SignInScreenWidget(),
-          SignUpScreenWidget.routeName: (_) => SignUpScreenWidget(),
-          RequestResetPasswordWidget.routeName: (_) => RequestResetPasswordWidget(),
-          ResetPasswordWidget.routeName: (_) => ResetPasswordWidget(),
-          UpdateUserScreenWidget.routeName: (_) => UpdateUserScreenWidget(),
-          BookScreenWidget.routeName: (_) => BookScreenWidget(),
-          BookingsManagementScreenWidget.routeName: (_) => BookingsManagementScreenWidget(),
-        },
+      child: CacheProvider(
+        child: MaterialApp(
+          title: 'Soso the barber',
+          theme: ThemeData(primaryColor: Color.fromARGB(255, 247, 255, 255)),
+          home: SignInScreenWidget(),
+          routes: {
+            HomeScreenWidget.routeName: (_) => HomeScreenWidget(),
+            SignInScreenWidget.routeName: (_) => SignInScreenWidget(),
+            SignUpScreenWidget.routeName: (_) => SignUpScreenWidget(),
+            RequestResetPasswordWidget.routeName: (_) => RequestResetPasswordWidget(),
+            ResetPasswordWidget.routeName: (_) => ResetPasswordWidget(),
+            UpdateUserScreenWidget.routeName: (_) => UpdateUserScreenWidget(),
+            BookScreenWidget.routeName: (_) => BookScreenWidget(),
+            BookingsManagementScreenWidget.routeName: (_) => BookingsManagementScreenWidget(),
+            ContactScreenWidget.routeName: (_) => ContactScreenWidget(),
+          },
+        ),
       ),
     );
   }

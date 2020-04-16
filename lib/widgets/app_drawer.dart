@@ -10,6 +10,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:sosothebarber/screens/contact_screen_widget.dart';
 
 import '../screens/home_screen_widget.dart';
 import '../screens/signin_screen_widget.dart';
@@ -35,14 +36,19 @@ class _AppDrawerState extends State<AppDrawer> {
     });
 
     AuthUtil().getUser().then((res) {
+      print(res);
       if (res != null) {
         setState(() {
           _user = jsonDecode(res);
         });
       }
+    }).catchError((error) {
       setState(() {
-        _isLoading = false;
+        _user = null;
       });
+    });
+    setState(() {
+      _isLoading = false;
     });
     super.didChangeDependencies();
   }
@@ -136,7 +142,8 @@ class _AppDrawerState extends State<AppDrawer> {
                   ),
                   title: Text("Contact"),
                   onTap: () {
-                    Navigator.of(context).pushNamed(HomeScreenWidget.routeName);
+                    Navigator.of(context)
+                        .pushNamed(ContactScreenWidget.routeName);
                   },
                 ),
                 Divider(),
@@ -180,34 +187,34 @@ class _AppDrawerState extends State<AppDrawer> {
                     },
                   ),
                 Divider(),
-                Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: Column(
-                    children: <Widget>[
-                      Align(
-                        alignment: Alignment.bottomLeft,
-                        child: Text(
-                          'Copyright © 2020 QOS-Software Solutions (Pty, Ltd)',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.02,
-                      ),
-                      Align(
-                        alignment: Alignment.bottomLeft,
-                        child: Text(
-                          'v0.0.1',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ),
-                    ],
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(20.0),
+            child: Column(
+              children: <Widget>[
+                Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Text(
+                    'Copyright © 2020 QOS-Software Solutions (Pty, Ltd)',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.02,
+                ),
+                Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Text(
+                    'v0.0.1',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey,
+                    ),
                   ),
                 ),
               ],

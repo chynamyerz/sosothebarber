@@ -8,14 +8,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:sosothebarber/graphql/queries.dart';
-import 'package:sosothebarber/screens/book_screen_widget.dart';
 import 'package:sosothebarber/screens/bookings_management_screen_widget.dart';
 import 'package:sosothebarber/widgets/alert_dialog_widget.dart';
 import 'package:sosothebarber/widgets/loading_widget.dart';
-
-import '../widgets/app_drawer.dart';
-import '../widgets/top_bar_shape_widget.dart';
 
 import '../graphql/mutations.dart';
 
@@ -191,7 +188,14 @@ class AdminBookingsScreenWidget extends StatelessWidget {
                                               ),
                                             ),
                                             Text(
-                                              "Price",
+                                              "Slot time",
+                                              style: TextStyle(
+                                                fontFamily: "Arial",
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            Text(
+                                              "Prize",
                                               style: TextStyle(
                                                 fontFamily: "Arial",
                                                 fontWeight: FontWeight.bold,
@@ -245,87 +249,121 @@ class AdminBookingsScreenWidget extends StatelessWidget {
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
+                                            Text(
+                                              ":",
+                                              style: TextStyle(
+                                                fontFamily: "Arial",
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
                                           ],
                                         ),
-                                        Column(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Text(
-                                              '${bookings[index]['user']['displayName'][0].toString().toUpperCase()}${bookings[index]['user']['displayName'].toString().substring(1)}',
-                                              style: TextStyle(
-                                                fontFamily: "Arial",
-                                                fontWeight: FontWeight.w400,
-                                              ),
-                                            ),
-                                            Text(
-                                              bookings[index]['cut']['title'],
-                                              style: TextStyle(
-                                                fontFamily: "Arial",
-                                                fontWeight: FontWeight.w400,
-                                              ),
-                                            ),
-                                            Text(
-                                              bookings[index]['cut']
-                                              ['description'],
-                                              style: TextStyle(
-                                                fontFamily: "Arial",
-                                                fontWeight: FontWeight.w400,
-                                              ),
-                                            ),
-                                            Text(
-                                              'R${bookings[index]['cut']['price']}',
-                                              textAlign: TextAlign.left,
-                                              style: TextStyle(
-                                                fontFamily: "Arial",
-                                                fontWeight: FontWeight.w400,
-                                              ),
-                                            ),
-                                            if (bookings[index]['status'] ==
-                                                'ACTIVE')
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                            children: <Widget>[
                                               Text(
-                                                '${bookings[index]['status']}',
-                                                textAlign: TextAlign.left,
+                                                '${bookings[index]['user']['displayName'][0].toString().toUpperCase()}${bookings[index]['user']['displayName'].toString().substring(1)}',
                                                 style: TextStyle(
-                                                  color: Colors.lightGreen,
                                                   fontFamily: "Arial",
-                                                  fontWeight: FontWeight.bold,
+                                                  fontWeight: FontWeight.w400,
                                                 ),
                                               ),
-                                            if (bookings[index]['status'] ==
-                                                'PENDING')
                                               Text(
-                                                '${bookings[index]['status']}',
-                                                textAlign: TextAlign.left,
+                                                bookings[index]['cut']['title'],
                                                 style: TextStyle(
-                                                  color: Colors.amberAccent,
                                                   fontFamily: "Arial",
-                                                  fontWeight: FontWeight.bold,
+                                                  fontWeight: FontWeight.w400,
                                                 ),
                                               ),
-                                            if (bookings[index]['status'] ==
-                                                'CANCELLED')
-                                              Text(
-                                                '${bookings[index]['status']}',
-                                                textAlign: TextAlign.left,
-                                                style: TextStyle(
-                                                  color: Colors.redAccent,
-                                                  fontFamily: "Arial",
-                                                  fontWeight: FontWeight.bold,
+                                              SingleChildScrollView(
+                                                scrollDirection: Axis.horizontal,
+                                                child: Text(
+                                                  bookings[index]['cut']
+                                                  ['description'],
+                                                  style: TextStyle(
+                                                    fontFamily: "Arial",
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
                                                 ),
                                               ),
-                                            if (bookings[index]['status'] ==
-                                                'DONE')
                                               Text(
-                                                '${bookings[index]['status']}',
+                                                '${DateFormat('y-MM-dd HH:mm a').format(DateTime.parse(bookings[index]['time']))}',
                                                 textAlign: TextAlign.left,
                                                 style: TextStyle(
-                                                  color: Colors.lightBlueAccent,
                                                   fontFamily: "Arial",
-                                                  fontWeight: FontWeight.bold,
+                                                  fontWeight: FontWeight.w400,
                                                 ),
                                               ),
-                                          ],
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                children: <Widget>[
+                                                  Text(
+                                                    'R ',
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                      fontFamily: "Arial",
+                                                      fontStyle: FontStyle.italic,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    '${bookings[index]['cut']['price']}',
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                      fontFamily: "Arial",
+                                                      fontWeight: FontWeight.w400,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                              if (bookings[index]['status'] ==
+                                                  'ACTIVE')
+                                                Text(
+                                                  '${bookings[index]['status']}',
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Colors.lightGreen,
+                                                    fontFamily: "Arial",
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              if (bookings[index]['status'] ==
+                                                  'PENDING')
+                                                Text(
+                                                  '${bookings[index]['status']}',
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Colors.amberAccent,
+                                                    fontFamily: "Arial",
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              if (bookings[index]['status'] ==
+                                                  'CANCELLED')
+                                                Text(
+                                                  '${bookings[index]['status']}',
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Colors.redAccent,
+                                                    fontFamily: "Arial",
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              if (bookings[index]['status'] ==
+                                                  'DONE')
+                                                Text(
+                                                  '${bookings[index]['status']}',
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Colors.lightBlueAccent,
+                                                    fontFamily: "Arial",
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                            ],
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -364,6 +402,39 @@ class AdminBookingsScreenWidget extends StatelessWidget {
                                                       bookingId: bookings[index]
                                                       ['id'],
                                                       action: 'done');
+                                                },
+                                              )),
+                                          Spacer(),
+                                          Container(
+                                              height: 25,
+                                              margin: EdgeInsets.only(
+                                                  top: 10),
+                                              decoration: BoxDecoration(
+                                                color: Colors.amberAccent,
+                                                border: Border.fromBorderSide(
+                                                    Borders.primaryBorder),
+                                                boxShadow: [
+                                                  Shadows.primaryShadow,
+                                                ],
+                                                borderRadius: Radii.k10pxRadius,
+                                              ),
+                                              child: FlatButton(
+                                                child: Text(
+                                                  'Reminder',
+                                                  style: TextStyle(
+                                                    color:
+                                                    AppColors.primaryText,
+                                                    fontFamily: "Arial",
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                                onPressed: () async {
+                                                  _submit(
+                                                      manageBookingsMutation:
+                                                      manageBookingsMutation,
+                                                      bookingId: bookings[index]
+                                                      ['id'],
+                                                      action: 'reminder');
                                                 },
                                               )),
                                           Spacer(),
